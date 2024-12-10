@@ -1,7 +1,9 @@
 import { http, HttpResponse } from 'msw';
 import { server } from '../../../mocks/server';
 
-import { render, screen, logRoles } from '@testing-library/react';
+// logRoles
+import { render, screen } from '../../../test-utils/testing-library-utils';
+
 import OrderEntry from '../OrderEntry';
 
 test.only("handles error for scoops and toppings routes", async () => {
@@ -20,16 +22,14 @@ test.only("handles error for scoops and toppings routes", async () => {
         }),
     );
 
-    const { container } = render(<OrderEntry />);
+    // const { container } =
+    render(<OrderEntry />);
 
     const alerts = await screen.findAllByRole('alert');
 
-    logRoles(container)
+    // logRoles(container)
 
     expect(alerts).toHaveLength(2);
 
 
 });
-
-// test("handles error for scoops and toppings routes 2", () => { })
-// test("handles error for scoops and toppings routes 3", async () => { })
