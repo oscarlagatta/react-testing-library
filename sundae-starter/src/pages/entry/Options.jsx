@@ -17,13 +17,19 @@ export default function Options({ optionType }) {
 
     // optionType is 'scoops' or 'topings'
     useEffect(() => {
-        axios.get(`http://localhost:3030/${optionType}`)
+        // create an abortController, to attache to the network request
+        const controller = new AbortController();
+        axios.get(`http://localhost:3030/${optionType}`, { signal: controller.signal })
             .then(response => {
                 setItems(response.data);
             })
             .catch(error => {
-                setError(true);
-            })
+                if (error.name !== 'CanceledError') setError(true);
+            });
+        // abort axios call on component unmont
+        return () => {
+            controller.abort();
+        }
     }, [optionType]);
 
     if (error) {
